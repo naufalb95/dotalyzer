@@ -1,16 +1,35 @@
 import { useQuery } from "@tanstack/react-query"
-import { fetchMatch } from "./api/match"
+import { fetchMatch } from "@/api/match"
 import { useState } from "react";
-import PlayerTable from "./components/player-table";
+import PlayerTable from "@/components/player-table";
+import { fetchHeroResources } from "@/api/resource";
 
 function Main() {
   const [inputValue, setInputValue] = useState("")
   const [matchId, setMatchId] = useState("")
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ['matchId', matchId],
+  const {
+    isPending: isMatchDataPending,
+    isError: isMatchDataError,
+    data: matchData,
+    error: errorMatchData
+  } = useQuery({
+    queryKey: ["match", matchId],
     queryFn: () => fetchMatch(matchId),
     enabled: matchId !== ""
   })
+  const {
+    isPending: isHeroResourcesPending,
+    isError: isHeroResourcesError,
+    data: heroResourcesData,
+    error: errorHeroResources
+  } = useQuery({
+    queryKey: ["heroes"],
+    queryFn: fetchHeroResources
+  })
+
+  const isPending = isMatchDataPending || isHeroResourcesPending
+  const isError = isMatchDataError || isHeroResourcesError
+  const errorMsg = errorMatchData?.message ?? errorHeroResources?.message ?? ""
 
   return (
     <section className="h-screen">
@@ -28,9 +47,9 @@ function Main() {
         >Find match</button>
       </div>
       <div>
-        {isPending && <span>Loading match detail...</span>}
-        {isError && <span>Error loading match: {error.message}</span>}
-        {data && <PlayerTable data={data.players}/>}
+        {matchId && isPending && <span>Loading match table...</span>}
+        {isError && <span>Error loading match: {errorMsg}</span>}
+        {matchData && heroResourcesData && <PlayerTable playerData={matchData.players} heroResourcesData={heroResourcesData} />}
       </div>
     </section>
   )

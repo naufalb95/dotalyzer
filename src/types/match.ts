@@ -11,6 +11,7 @@ export interface PlayerData {
   hero_damage: number
   tower_damage: number
   hero_healing: number
+  hero_id: number
 }
 
 export interface MatchData {

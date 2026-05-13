@@ -1,0 +1,1 @@
+export const getHeroImageUrl = (imageUrl: string) => import.meta.env.VITE_STEAMSTATICS_API_URL + imageUrl;
