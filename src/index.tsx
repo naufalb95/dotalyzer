@@ -32,9 +32,11 @@ function Main() {
   const errorMsg = errorMatchData?.message ?? errorHeroResources?.message ?? ''
 
   return (
-    <section className="h-screen">
-      <h1 className="text-3xl font-bold underline">Dota 2 Analyzer</h1>
-      <div className="flex h-50 items-center justify-center">
+    <section className="flex flex-col justify-center h-screen">
+      <div className="flex w-full justify-center">
+        <h1 className="text-3xl font-bold underline">Dota 2 Analyzer</h1>
+      </div>
+      <div className="flex w-full h-50 items-center justify-center py-5">
         <input
           className="border py-1 px-2 rounded-md border-white"
           placeholder="Input your match ID here"
@@ -48,7 +50,7 @@ function Main() {
           Find match
         </button>
       </div>
-      <div>
+      <div className="flex w-full justify-center items-center">
         {matchId && isPending && <span>Loading match table...</span>}
         {isError && <span>Error loading match: {errorMsg}</span>}
         {matchData && heroResourcesData && (
