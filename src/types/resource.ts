@@ -14,3 +14,7 @@ export interface ResourceGameMode {
     balanced: boolean
   }
 }
+
+export interface ResourceRegion {
+  [id: string]: string
+}

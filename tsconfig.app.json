@@ -27,7 +27,8 @@
       "@/api/*": ["./src/api/*"],
       "@/components/*": ["./src/components/*"],
       "@/utils/*": ["./src/utils/*"],
-      "@/data/*": ["./src/data/*"]
+      "@/data/*": ["./src/data/*"],
+      "@/constants": ["./src/constants.ts"]
     }
   },
   "include": ["src"]

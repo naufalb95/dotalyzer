@@ -1,4 +1,4 @@
-import { getHeroImageUrl } from '@/utils/url-builder'
+import { getHeroImageUrl } from '@/utils'
 
 import type { PlayerData } from '@/types/match'
 import type { ResourceHero } from '@/types/resource'

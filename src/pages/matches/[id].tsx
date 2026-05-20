@@ -1,10 +1,14 @@
-import PlayerTable from '@/components/player-table'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router'
 import { fetchMatch } from '@/api/match'
-import { fetchHeroResources, fetchGameModeResources } from '@/api/resource'
+import {
+  fetchHeroResources,
+  fetchGameModeResources,
+  fetchRegionResources,
+} from '@/api/resource'
 import Navbar from '@/components/navbar'
-import MatchHeader from '@/components/match-header'
+import MatchHeader from '@/components/matches/header'
+import PlayerTable from '@/components/matches/player-table'
 
 function MatchData() {
   const { id: matchId } = useParams()
@@ -32,21 +36,37 @@ function MatchData() {
   const {
     isPending: isGameModeResourcesPending,
     isError: isGameModeResourcesError,
-    data: GameModeResourcesData,
+    data: gameModeResourcesData,
     error: errorGameModeResources,
   } = useQuery({
     queryKey: ['gameMode'],
     queryFn: fetchGameModeResources,
   })
+  const {
+    isPending: isRegionResourcesPending,
+    isError: isRegionResourcesError,
+    data: regionResourcesData,
+    error: errorRegionResources,
+  } = useQuery({
+    queryKey: ['region'],
+    queryFn: fetchRegionResources,
+  })
 
   const isPending =
-    isMatchDataPending || isHeroResourcesPending || isGameModeResourcesPending
+    isMatchDataPending ||
+    isHeroResourcesPending ||
+    isGameModeResourcesPending ||
+    isRegionResourcesPending
   const isError =
-    isMatchDataError || isHeroResourcesError || isGameModeResourcesError
+    isMatchDataError ||
+    isHeroResourcesError ||
+    isGameModeResourcesError ||
+    isRegionResourcesError
   const errorMsg =
     errorMatchData?.message ??
     errorHeroResources?.message ??
     errorGameModeResources?.message ??
+    errorRegionResources?.message ??
     ''
   return (
     <>
@@ -58,7 +78,8 @@ function MatchData() {
           <div className="flex flex-col">
             <MatchHeader
               matchData={matchData}
-              gameModeData={GameModeResourcesData}
+              gameModeData={gameModeResourcesData}
+              regionData={regionResourcesData}
             />
             <PlayerTable
               playerData={matchData.players}

@@ -21,4 +21,6 @@ export interface MatchData {
   game_mode: number
   duration: number
   start_time: number
+  match_id: number
+  region: number
 }
