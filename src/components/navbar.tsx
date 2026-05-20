@@ -17,7 +17,9 @@ function Navbar() {
     <nav className="relative bg-white">
       <div className="flex px-2">
         <div className="navbar-logo flex-none py-3 mx-3">
-          <span>{`<Dotalyzer/>`}</span>
+          <span>
+            &lt;<strong>Dota</strong>lyzer /&gt;
+          </span>
         </div>
         <div className="navbar-menu flex justify-start w-full py-3 bg-black">
           <NavLink to="/" className="px-2">

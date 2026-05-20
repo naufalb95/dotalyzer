@@ -2,8 +2,9 @@ import PlayerTable from '@/components/player-table'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router'
 import { fetchMatch } from '@/api/match'
-import { fetchHeroResources } from '@/api/resource'
+import { fetchHeroResources, fetchGameModeResources } from '@/api/resource'
 import Navbar from '@/components/navbar'
+import MatchHeader from '@/components/match-header'
 
 function MatchData() {
   const { id: matchId } = useParams()
@@ -28,10 +29,25 @@ function MatchData() {
     queryKey: ['heroes'],
     queryFn: fetchHeroResources,
   })
+  const {
+    isPending: isGameModeResourcesPending,
+    isError: isGameModeResourcesError,
+    data: GameModeResourcesData,
+    error: errorGameModeResources,
+  } = useQuery({
+    queryKey: ['gameMode'],
+    queryFn: fetchGameModeResources,
+  })
 
-  const isPending = isMatchDataPending || isHeroResourcesPending
-  const isError = isMatchDataError || isHeroResourcesError
-  const errorMsg = errorMatchData?.message ?? errorHeroResources?.message ?? ''
+  const isPending =
+    isMatchDataPending || isHeroResourcesPending || isGameModeResourcesPending
+  const isError =
+    isMatchDataError || isHeroResourcesError || isGameModeResourcesError
+  const errorMsg =
+    errorMatchData?.message ??
+    errorHeroResources?.message ??
+    errorGameModeResources?.message ??
+    ''
   return (
     <>
       <Navbar />
@@ -39,10 +55,16 @@ function MatchData() {
         {matchId && isPending && <span>Loading match table...</span>}
         {isError && <span>Error loading match: {errorMsg}</span>}
         {matchData && heroResourcesData && (
-          <PlayerTable
-            playerData={matchData.players}
-            heroResourcesData={heroResourcesData}
-          />
+          <div className="flex flex-col">
+            <MatchHeader
+              matchData={matchData}
+              gameModeData={GameModeResourcesData}
+            />
+            <PlayerTable
+              playerData={matchData.players}
+              heroResourcesData={heroResourcesData}
+            />
+          </div>
         )}
       </div>
     </>

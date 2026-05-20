@@ -6,3 +6,11 @@ export interface ResourceHero {
     icon: string
   }
 }
+
+export interface ResourceGameMode {
+  [id: string]: {
+    id: number
+    name: string
+    balanced: boolean
+  }
+}

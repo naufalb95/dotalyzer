@@ -16,4 +16,9 @@ export interface PlayerData {
 
 export interface MatchData {
   players: PlayerData[]
+  radiant_score: number
+  dire_score: number
+  game_mode: number
+  duration: number
+  start_time: number
 }
