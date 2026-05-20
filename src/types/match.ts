@@ -23,4 +23,5 @@ export interface MatchData {
   start_time: number
   match_id: number
   region: number
+  radiant_win: boolean
 }

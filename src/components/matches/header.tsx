@@ -13,10 +13,24 @@ function MatchHeader({
   gameModeData?: ResourceGameMode
   regionData?: ResourceRegion
 }) {
+  const teamStyles = matchData.radiant_win
+    ? {
+        bg: 'bg-green-500/5 border-green-500/15',
+        text: 'text-green-500',
+      }
+    : {
+        bg: 'bg-red-500/5 border-red-500/15',
+        text: 'text-red-500',
+      }
+
   return (
     <div className="flex justify-between w-full h-32">
-      <div className="flex-1 h-full">
-        <span>Radiant Win!</span>
+      <div className="flex items-center justify-center flex-1 h-full">
+        <div className={`${teamStyles.bg} px-5 py-1 border-1 rounded`}>
+          <span className={`${teamStyles.text} text-4xl font-semibold`}>
+            {matchData.radiant_win ? 'Radiant' : 'Dire'} Win!
+          </span>
+        </div>
       </div>
       <div className="flex justify-center h-full mx-5">
         <div className="flex flex-col justify-center">
