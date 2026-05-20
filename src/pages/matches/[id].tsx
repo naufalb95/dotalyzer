@@ -9,6 +9,7 @@ import {
 import Navbar from '@/components/navbar'
 import MatchHeader from '@/components/matches/header'
 import PlayerTable from '@/components/matches/player-table'
+import type { PlayerData } from '@/types/match'
 
 function MatchData() {
   const { id: matchId } = useParams()
@@ -68,25 +69,49 @@ function MatchData() {
     errorGameModeResources?.message ??
     errorRegionResources?.message ??
     ''
+
+  let radiantPlayers: PlayerData[] = []
+  let direPlayers: PlayerData[] = []
+
+  if (matchData) {
+    radiantPlayers = matchData.players
+      .filter((player) => player.player_slot < 5)
+      .sort((a, b) => a.player_slot - b.player_slot)
+    direPlayers = matchData.players
+      .filter((player) => player.player_slot >= 5)
+      .sort((a, b) => a.player_slot - b.player_slot)
+  }
+
   return (
     <>
       <Navbar />
       <div className="flex w-full justify-center items-center">
         {matchId && isPending && <span>Loading match table...</span>}
         {isError && <span>Error loading match: {errorMsg}</span>}
-        {matchData && heroResourcesData && (
-          <div className="flex flex-col">
-            <MatchHeader
-              matchData={matchData}
-              gameModeData={gameModeResourcesData}
-              regionData={regionResourcesData}
-            />
-            <PlayerTable
-              playerData={matchData.players}
-              heroResourcesData={heroResourcesData}
-            />
-          </div>
-        )}
+        {matchData &&
+          heroResourcesData &&
+          radiantPlayers.length &&
+          direPlayers.length && (
+            <div className="flex flex-col">
+              <MatchHeader
+                matchData={matchData}
+                gameModeData={gameModeResourcesData}
+                regionData={regionResourcesData}
+              />
+              <PlayerTable
+                side="radiant"
+                doRadiantWin={matchData.radiant_win}
+                playerData={radiantPlayers}
+                heroResourcesData={heroResourcesData}
+              />
+              <PlayerTable
+                side="dire"
+                doRadiantWin={matchData.radiant_win}
+                playerData={direPlayers}
+                heroResourcesData={heroResourcesData}
+              />
+            </div>
+          )}
       </div>
     </>
   )
