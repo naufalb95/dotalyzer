@@ -8,20 +8,18 @@ function Navbar() {
     e.preventDefault()
     const matchId = e.target.searchMatchId.value.trim()
 
-    console.log('matchId', matchId)
-
     navigate('/matches/' + matchId)
   }
 
   return (
     <nav className="relative bg-white">
       <div className="flex px-2">
-        <div className="navbar-logo flex-none py-3 mx-3">
+        <NavLink to="/" className="navbar-logo w-50 h-full py-3">
           <span>
             &lt;<strong>Dota</strong>lyzer /&gt;
           </span>
-        </div>
-        <div className="navbar-menu flex justify-start w-full py-3 bg-black">
+        </NavLink>
+        <div className="navbar-menu hidden flex justify-start w-full py-3 bg-black">
           <NavLink to="/" className="px-2">
             Home
           </NavLink>
@@ -32,7 +30,7 @@ function Navbar() {
             Heroes
           </NavLink>
         </div>
-        <div className="navbar-search flex-none py-3">
+        <div className="navbar-search hidden flex-none py-3">
           <form onSubmit={handleSubmit}>
             <input
               type="search"
